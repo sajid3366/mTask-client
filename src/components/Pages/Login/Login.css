@@ -1,0 +1,7 @@
+.color{
+    transition: 1s;
+    cursor: pointer;
+}
+.color:hover{
+    color: #2f80ed;
+}

@@ -17,7 +17,7 @@ const Banner = () => {
                     <h2 className="text-xl font-semibold mt-2">Manage Your Daily Task</h2>
                 </div>
                 <Link className="flex justify-center" to="/login">
-                    <p className="text-white text-lg font-semibold bg-slate-700 rounded-sm py-2 px-2 cursor-pointer hover:text-black hover:bg-gray-400 w-[150px] ">Let's Explore</p>
+                    <p className="text-white text-lg font-semibold bg-slate-700 rounded-sm py-2 px-2 cursor-pointer hover:text-black hover:bg-gray-400 w-[150px] ">Let's Explore..</p>
                 </Link>
             </div>
 

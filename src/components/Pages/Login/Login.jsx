@@ -28,7 +28,7 @@ const Login = () => {
             .then(resuslt => {
                 console.log(resuslt.user);
                 // setSuccess('Successfully Logged In');
-                navigate(location?.state ? location.state : "/")
+                navigate(location?.state ? location.state : "/dashboard")
             })
             .catch(error => {
                 console.error(error);

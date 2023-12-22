@@ -5,7 +5,7 @@ const Navbar = () => {
         <nav className=" lg:flex justify-between py-1 items-center px-4 h-[100%] ">
             <div>
                 <Link to="/">
-                    <img className='w-full lg:w-[200px] cursor-pointer' src="https://i.ibb.co/pfhtbzx/study-corner.png" alt="" />
+                    <h1 className='text-4xl font-bold ml-20'>M Task</h1>
                 </Link>
             </div>
 
@@ -25,23 +25,17 @@ const Navbar = () => {
                         <NavLink to="/createProject" className={({ isActive, isPending }) =>
                             isActive ? "text-[#FF444A] underline font-bold" : isPending ? "pending" : ""
                         }>
-                            Create Project
+                            About Us
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/assignments" className={({ isActive, isPending }) =>
                             isActive ? "text-[#FF444A] underline font-bold" : isPending ? "pending" : ""
                         }>
-                            Assignments
+                            Contact 
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/myassignments" className={({ isActive, isPending }) =>
-                            isActive ? "text-[#FF444A] underline font-bold" : isPending ? "pending" : ""
-                        }>
-                            My Assignments
-                        </NavLink>
-                    </li>
+                    
                     
 
                 </ul>

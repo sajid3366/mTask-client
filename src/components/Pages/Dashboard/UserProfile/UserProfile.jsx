@@ -6,6 +6,7 @@ import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 import ToDoTask from "./ToDoTask";
 import Modarate from "./Modarate";
 import CompleteTask from "./CompleteTask";
+import useAuth from "../../../../Hooks/useAuth";
 
 const UserProfile = () => {
     const [startDate, setStartDate] = useState();
@@ -14,6 +15,7 @@ const UserProfile = () => {
     const [todoTasks, setTodoTasks] = useState([]);
     const [ongoingTasks, setOngoingTasks] = useState([]);
     const [completedTasks, setCompletedTasks] = useState([]);
+    const {user} = useAuth();
 
     useEffect(() => {
         axiosPublic.get(`/tasks/todo`)

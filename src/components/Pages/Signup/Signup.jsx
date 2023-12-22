@@ -1,42 +1,62 @@
-import { FaFacebookF } from "react-icons/fa6";
-import { FaGoogle } from "react-icons/fa";
-import { IoLogoTwitter } from "react-icons/io";
-import { Link, useNavigate } from 'react-router-dom';
-import './Login.css'
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { updateProfile } from "firebase/auth";
 
-const Login = () => {
-    const { login, googleLogin } = useAuth();
+const Signup = () => {
+    const { createUser } = useAuth();
+    const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
 
-
-    const handleLogin = e => {
+    const handleSignup = e => {
         e.preventDefault();
+
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        const user = {
-            email, password
+        const name = form.name.value;
+        const photo = form.photo.value;
+        const users = {
+            name, email, password, photo
         }
-        console.log(user);
-        login(email, password)
-        .then(res => console.log(res.user))
-        .catch(error => {
-            console.error(error);
-        })
-    }
+        console.log(users);
+        createUser(email,  password)
+            .then(result => {
+                console.log(result.user);
 
-    const handleGoogleSignin = e => {
-        e.preventDefault();
+                const user = {
+                    name, email, password, photo
+                }
+                console.log(user);
+                    axiosPublic.post("/users", user)
+                    .then(res => {
+                        console.log(res);
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'User Created successfully',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            })
+                            navigate(location?.state ? location.state : "/dashboard")
+                        }
+                    })
+                updateProfile(result.user, {
+                    displayName: name,
+                    photoURL: photo
 
-        googleLogin()
-            .then(resuslt => {
-                console.log(resuslt.user);
-                // setSuccess('Successfully Logged In');
-                navigate(location?.state ? location.state : "/dashboard")
+                })
+                    .then(() => console.log('hello vai'))
+                    .catch(error => {
+                        console.log(error);
+                    })
+
             })
             .catch(error => {
                 console.error(error);
+
+
             })
     }
     return (
@@ -54,9 +74,17 @@ const Login = () => {
             </div>
             <div className="text-center w-[450px] -ml-[300px] bg-[#131720] px-12 py-8 rounded-lg pt-10">
                 <div className="text-5xl mb-16">
-                    Sign in
+                    Sign Up
                 </div>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleSignup}>
+                    <div className="form-control">
+
+                        <input type="text" name="name" placeholder="Your Name" className="bg-[#151f30] mb-5 w-full rounded-xl h-12 px-5" required />
+                    </div>
+                    <div className="form-control">
+
+                        <input type="text" name="photo" placeholder="Photo URL" className="bg-[#151f30] mb-5 w-full rounded-xl h-12 px-5" required />
+                    </div>
                     <div >
                         <input className="bg-[#151f30] mb-5 w-full rounded-xl h-12 px-5" type="email" name="email" placeholder='Email' />
                     </div>
@@ -67,19 +95,13 @@ const Login = () => {
                         Remember me
                     </div>
                     <div>
-                        <input className="btn btn-primary w-full rounded-2xl uppercase mt-5 mb-3 hover:bg-slate-100 hover:text-black color " type="submit" value="Login" />
+                        <input className="btn btn-primary w-full rounded-2xl uppercase mt-5 mb-3 hover:bg-slate-100 hover:text-black color " type="submit" value="Signup" />
                     </div>
                 </form>
                 <div>
-                    <p>or</p>
-                    <div className='flex gap-x-5 justify-between text-2xl mt-3'>
-                        <div className='bg-[#3b5999] w-full flex justify-center rounded-2xl py-2 color hover:bg-slate-100'><FaFacebookF /></div>
-                        <div onClick={handleGoogleSignin} className='bg-[#df4a32] w-full flex justify-center rounded-2xl py-2 color hover:bg-slate-100'><FaGoogle /></div>
-                        <div className='bg-[#1da1f2] w-full flex justify-center rounded-2xl py-2 color hover:bg-slate-100'><IoLogoTwitter /></div>
-                    </div>
+
                     <div>
-                        <h2 className='mt-5'>Don't have an account? <Link to="/signup" className='text-[#2f80ed] '>SIgn up!</Link></h2>
-                        <Link to="/"><h2 className='text-[#2f80ed] mt-3'>Forget Password?</h2></Link>
+                        <h2 className='mt-5'>Already have an account? <Link to="/login" className='text-[#2f80ed] '>Login!</Link></h2>
                     </div>
                 </div>
             </div>
@@ -88,4 +110,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
